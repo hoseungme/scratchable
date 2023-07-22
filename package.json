@@ -4,7 +4,7 @@
   "description": "A scratch card renderer using HTML Canvas",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup src/index.ts --format cjs,esm --dts --minify"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/HoseungJang/scratchable/issues"
   },
-  "homepage": "https://github.com/HoseungJang/scratchable#readme"
+  "homepage": "https://github.com/HoseungJang/scratchable#readme",
+  "devDependencies": {
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6"
+  }
 }
