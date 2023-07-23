@@ -5,7 +5,8 @@ export interface RendererOptions {
     | {
         type: "linear-gradient";
         gradients: { offset: number; color: string }[];
-      };
+      }
+    | { type: "image"; url: string };
 }
 
 export class Renderer {
@@ -39,7 +40,7 @@ export class Renderer {
     return scratchedPixels / totalPixels;
   }
 
-  public render() {
+  public async render() {
     this.container.style.position = "relative";
 
     const dpr = window.devicePixelRatio;
@@ -57,28 +58,45 @@ export class Renderer {
     this.canvas.style.right = "0";
     this.canvas.style.bottom = "0";
 
-    switch (this.background.type) {
-      case "single": {
-        this.ctx.fillStyle = this.background.color;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        break;
+    return new Promise<void>((resolve) => {
+      const renderCanvas = () => {
+        this.ctx.globalCompositeOperation = "destination-out";
+        this.container.appendChild(this.canvas);
+        resolve();
+      };
+
+      switch (this.background.type) {
+        case "single": {
+          this.ctx.fillStyle = this.background.color;
+          this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+          renderCanvas();
+          return;
+        }
+        case "linear-gradient": {
+          const grd = this.ctx.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);
+
+          this.background.gradients.forEach((gradient) => {
+            grd.addColorStop(gradient.offset, gradient.color);
+          });
+
+          this.ctx.fillStyle = grd;
+          this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+          renderCanvas();
+          return;
+        }
+        case "image": {
+          const image = new Image();
+
+          image.onload = () => {
+            this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+            renderCanvas();
+          };
+
+          image.src = this.background.url;
+          return;
+        }
       }
-      case "linear-gradient": {
-        const grd = this.ctx.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);
-
-        this.background.gradients.forEach((gradient) => {
-          grd.addColorStop(gradient.offset, gradient.color);
-        });
-
-        this.ctx.fillStyle = grd;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        break;
-      }
-    }
-
-    this.ctx.globalCompositeOperation = "destination-out";
-
-    this.container.appendChild(this.canvas);
+    });
   }
 
   public circle(x: number, y: number, radius: number) {

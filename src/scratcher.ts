@@ -49,8 +49,8 @@ export class Scratcher {
     this.prevScratchPosition = null;
   }
 
-  public render() {
-    this.renderer.render();
+  public async render() {
+    await this.renderer.render();
   }
 
   public destroy() {
@@ -110,11 +110,11 @@ export class TouchScratcher extends Scratcher {
     this.end();
   };
 
-  public render() {
+  public async render() {
     this.container.addEventListener("touchstart", this.touchstart);
     this.container.addEventListener("touchmove", this.touchmove);
     this.container.addEventListener("touchend", this.touchend);
-    super.render();
+    await super.render();
   }
 
   public destory() {
@@ -144,9 +144,9 @@ export class MouseScratcher extends Scratcher {
     this.move(x, y);
   };
 
-  public render() {
+  public async render() {
     this.container.addEventListener("mousemove", this.mousemove);
-    super.render();
+    await super.render();
   }
 
   public destroy() {

@@ -21,8 +21,8 @@ export class Scratchable {
     return "ontouchstart" in window || navigator.maxTouchPoints > 0;
   }
 
-  public render() {
-    this.scratcher.render();
+  public async render() {
+    await this.scratcher.render();
   }
 
   public destroy() {
