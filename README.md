@@ -38,10 +38,10 @@ const scratchable = new Scratable({
 <div ref={ref}>{/* CONTENT */}</div>
 ```
 
-And then it will render the canvas on your `/* CONTENT */`, when you call `Scratchable.render()`.
+And then it will render the canvas on your `/* CONTENT */`, when you call `Scratchable.render()`. It returns `Promise<void>`.
 
 ```typescript
-scratchable.render();
+await scratchable.render();
 ```
 
 And you can also remove the rendered canvas.
@@ -56,7 +56,7 @@ This is the basic. Now let's see another required option `background`.
 
 You should pass `background` to `Scratchable`, which is the color of the rendered canvas.
 
-It has two kinds of type, `single` and `linear-gradient`.
+It has three kinds of type, `single`, `linear-gradient` and `image`.
 
 ### Single Background
 
@@ -89,6 +89,20 @@ new Scratable({
 ```
 
 https://github.com/HoseungJang/scratchable/assets/39669819/bef24ef0-2860-4150-9133-35a922950936
+
+### Image Background
+
+```typescript
+new Scratable({
+  /* ... */
+  background: {
+    type: "image",
+    url: "karina.jpeg",
+  },
+});
+```
+
+https://github.com/HoseungJang/scratchable/assets/39669819/8fd80f49-bb3c-4582-af82-b57273e6a8c2
 
 ## Radius
 
