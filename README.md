@@ -25,7 +25,7 @@ const scratchable = new Scratable({
 
 Or in React,
 
-```javascript
+```typescript
 const container = ref.current;
 
 const scratchable = new Scratable({
@@ -34,7 +34,7 @@ const scratchable = new Scratable({
 });
 ```
 
-```jsx
+```tsx
 <div ref={ref}>{/* CONTENT */}</div>
 ```
 
@@ -42,6 +42,12 @@ And then it will render the canvas on your `/* CONTENT */`, when you call `Scrat
 
 ```typescript
 scratchable.render();
+```
+
+And you can also remove the rendered canvas.
+
+```typescript
+scratchable.destroy();
 ```
 
 This is the basic. Now let's see another required option `background`.
@@ -109,3 +115,32 @@ new Scratable({
 ```
 
 https://github.com/HoseungJang/scratchable/assets/39669819/b8421e3b-f79e-4114-a002-0f8c066e1c95
+
+## Scratch Event
+
+You can register a function which will be called when `scratch` event fires. The event fires when an user is scratching the canvas.
+
+```typescript
+const handler = (e: ScratchEvent) => {
+  /* ... */
+};
+
+scratchable.addEventListener("scratch", handler);
+scratchable.removeEventListener("scratch", handler);
+```
+
+## Scratched Percentage
+
+You can get percentage(0 ~ 1) from `ScratchEvent` above. The percentage is ratio of scratched area to all scratchable area.
+
+```typescript
+const handler = (e: ScratchEvent) => {
+  if (e.percentage > 0.5) {
+    scratchable.destroy();
+  }
+};
+
+scratchable.addEventListener("scratch", handler);
+```
+
+https://github.com/HoseungJang/scratchable/assets/39669819/877e7224-5311-443e-84d1-be24632f5d21
