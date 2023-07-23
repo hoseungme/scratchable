@@ -135,7 +135,7 @@ https://github.com/HoseungJang/scratchable/assets/39669819/b8421e3b-f79e-4114-a0
 You can register a function which will be called when `scratch` event fires. The event fires when an user is scratching the canvas.
 
 ```typescript
-const handler = (e: ScratchEvent) => {
+const handler = (e: ScratchableEvent) => {
   /* ... */
 };
 
@@ -148,7 +148,7 @@ scratchable.removeEventListener("scratch", handler);
 You can get percentage(0 ~ 1) from `ScratchEvent` above. The percentage is ratio of scratched area to all scratchable area.
 
 ```typescript
-const handler = (e: ScratchEvent) => {
+const handler = (e: ScratchableEvent) => {
   if (e.percentage > 0.5) {
     scratchable.destroy();
   }
