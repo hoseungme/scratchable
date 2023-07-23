@@ -60,12 +60,41 @@ export class Scratcher {
 }
 
 export class TouchScratcher extends Scratcher {
+  private prevScrollY: number | null = null;
+
   constructor(options: ScratcherOptions) {
     super(options);
-
-    this.container.addEventListener("touchmove", this.touchmove);
-    this.container.addEventListener("touchend", this.touchend);
   }
+
+  private lockBodyScroll() {
+    if (this.prevScrollY == null) {
+      const scrollY = window.scrollY;
+
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0px";
+      document.body.style.right = "0px";
+      document.body.style.overflow = "hidden";
+
+      this.prevScrollY = scrollY;
+    }
+  }
+
+  private unlockBodyScroll() {
+    if (this.prevScrollY != null) {
+      document.body.style.removeProperty("position");
+      document.body.style.removeProperty("top");
+      document.body.style.removeProperty("left");
+      document.body.style.removeProperty("right");
+      document.body.style.removeProperty("overflow");
+      window.scrollTo({ top: this.prevScrollY });
+      this.prevScrollY = null;
+    }
+  }
+
+  private touchstart = () => {
+    this.lockBodyScroll();
+  };
 
   private touchmove = (e: TouchEvent) => {
     const { left, top } = this.container.getBoundingClientRect();
@@ -77,12 +106,21 @@ export class TouchScratcher extends Scratcher {
   };
 
   private touchend = () => {
+    this.unlockBodyScroll();
     this.end();
   };
 
-  public destory() {
+  public render() {
+    this.container.addEventListener("touchstart", this.touchstart);
     this.container.addEventListener("touchmove", this.touchmove);
     this.container.addEventListener("touchend", this.touchend);
+    super.render();
+  }
+
+  public destory() {
+    this.container.removeEventListener("touchstart", this.touchstart);
+    this.container.removeEventListener("touchmove", this.touchmove);
+    this.container.removeEventListener("touchend", this.touchend);
     super.destroy();
   }
 }
@@ -90,8 +128,6 @@ export class TouchScratcher extends Scratcher {
 export class MouseScratcher extends Scratcher {
   constructor(options: ScratcherOptions) {
     super(options);
-
-    this.container.addEventListener("mousemove", this.mousemove);
   }
 
   private mousemove = (e: MouseEvent) => {
@@ -107,6 +143,11 @@ export class MouseScratcher extends Scratcher {
     const y = clientY - top;
     this.move(x, y);
   };
+
+  public render() {
+    this.container.addEventListener("mousemove", this.mousemove);
+    super.render();
+  }
 
   public destroy() {
     this.container.removeEventListener("mousemove", this.mousemove);
