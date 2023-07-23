@@ -1,13 +1,13 @@
 import { Events } from "./events";
 import { Renderer, RendererOptions } from "./renderer";
 
-export type ScratcherEvent = "scratch";
+export type ScratcherEventName = "scratch";
 
-export interface ScratchEvent {
+export interface ScratcherEvent {
   percentage: number;
 }
 
-export type ScratcherEventHandler = (e: ScratchEvent) => void;
+export type ScratcherEventHandler = (e: ScratcherEvent) => void;
 
 export interface ScratcherOptions extends RendererOptions {
   container: HTMLElement;
@@ -19,7 +19,7 @@ export class Scratcher {
   protected readonly container: HTMLElement;
   private readonly renderer: Renderer;
   private readonly radius: number;
-  public readonly events: Events<ScratcherEvent, ScratchEvent>;
+  public readonly events: Events<ScratcherEventName, ScratcherEvent>;
 
   private prevScratchPosition: { x: number; y: number } | null = null;
 

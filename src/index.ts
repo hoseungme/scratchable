@@ -1,12 +1,19 @@
 import {
   MouseScratcher,
   Scratcher,
+  ScratcherEventName,
   ScratcherEvent,
   ScratcherEventHandler,
   ScratcherOptions,
   TouchScratcher,
 } from "./scratcher";
 import { RendererOptions } from "./renderer";
+
+export type ScratchableEventName = ScratcherEventName;
+
+export type ScratchableEvent = ScratcherEvent;
+
+export type ScratchableEventHandler = ScratcherEventHandler;
 
 export type ScratchableOptions = ScratcherOptions & RendererOptions;
 
@@ -29,11 +36,11 @@ export class Scratchable {
     this.scratcher.destroy();
   }
 
-  public addEventListener(event: ScratcherEvent, handler: ScratcherEventHandler) {
+  public addEventListener(event: ScratcherEventName, handler: ScratcherEventHandler) {
     this.scratcher.events.on(event, handler);
   }
 
-  public removeEventListener(event: ScratcherEvent, handler: ScratcherEventHandler) {
+  public removeEventListener(event: ScratcherEventName, handler: ScratcherEventHandler) {
     this.scratcher.events.off(event, handler);
   }
 }
