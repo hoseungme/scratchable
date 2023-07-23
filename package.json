@@ -1,8 +1,24 @@
 {
   "name": "scratchable",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A scratch card renderer using HTML Canvas",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --minify"
   },
