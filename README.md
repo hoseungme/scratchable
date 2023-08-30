@@ -13,7 +13,7 @@ First of all, you should pass `container` to `Scratchable`, which will be overla
 ```javascript
 const container = document.getElementById("container");
 
-const scratchable = new Scratable({
+const scratchable = new Scratchable({
   container,
   /* ... */
 });
@@ -28,7 +28,7 @@ Or in React,
 ```typescript
 const container = ref.current;
 
-const scratchable = new Scratable({
+const scratchable = new Scratchable({
   container,
   /* ... */
 });
@@ -61,7 +61,7 @@ It has three kinds of type, `single`, `linear-gradient` and `image`.
 ### Single Background
 
 ```typescript
-new Scratable({
+new Scratchable({
   /* ... */
   background: {
     type: "single",
@@ -75,7 +75,7 @@ https://github.com/HoseungJang/scratchable/assets/39669819/7915c2af-8bbe-43d8-91
 ### Linear Gradient Background
 
 ```typescript
-new Scratable({
+new Scratchable({
   /* ... */
   background: {
     type: "linear-gradient",
@@ -93,7 +93,7 @@ https://github.com/HoseungJang/scratchable/assets/39669819/bef24ef0-2860-4150-91
 ### Image Background
 
 ```typescript
-new Scratable({
+new Scratchable({
   /* ... */
   background: {
     type: "image",
@@ -111,7 +111,7 @@ You can set radius of a circle which is rendered when you scratch the canvas. Le
 ### 20
 
 ```typescript
-new Scratable({
+new Scratchable({
   /* ... */
   radius: 20,
 });
@@ -122,7 +122,7 @@ https://github.com/HoseungJang/scratchable/assets/39669819/44c38fac-a130-427d-8c
 ### 40
 
 ```typescript
-new Scratable({
+new Scratchable({
   /* ... */
   radius: 40,
 });
