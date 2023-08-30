@@ -60,41 +60,10 @@ export class Scratcher {
 }
 
 export class TouchScratcher extends Scratcher {
-  private prevScrollY: number | null = null;
-
   constructor(options: ScratcherOptions) {
     super(options);
+    this.container.style.touchAction = "none";
   }
-
-  private lockBodyScroll() {
-    if (this.prevScrollY == null) {
-      const scrollY = window.scrollY;
-
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = "0px";
-      document.body.style.right = "0px";
-      document.body.style.overflow = "hidden";
-
-      this.prevScrollY = scrollY;
-    }
-  }
-
-  private unlockBodyScroll() {
-    if (this.prevScrollY != null) {
-      document.body.style.removeProperty("position");
-      document.body.style.removeProperty("top");
-      document.body.style.removeProperty("left");
-      document.body.style.removeProperty("right");
-      document.body.style.removeProperty("overflow");
-      window.scrollTo({ top: this.prevScrollY });
-      this.prevScrollY = null;
-    }
-  }
-
-  private touchstart = () => {
-    this.lockBodyScroll();
-  };
 
   private touchmove = (e: TouchEvent) => {
     const { left, top } = this.container.getBoundingClientRect();
@@ -106,19 +75,16 @@ export class TouchScratcher extends Scratcher {
   };
 
   private touchend = () => {
-    this.unlockBodyScroll();
     this.end();
   };
 
   public async render() {
-    this.container.addEventListener("touchstart", this.touchstart);
     this.container.addEventListener("touchmove", this.touchmove);
     this.container.addEventListener("touchend", this.touchend);
     await super.render();
   }
 
   public destory() {
-    this.container.removeEventListener("touchstart", this.touchstart);
     this.container.removeEventListener("touchmove", this.touchmove);
     this.container.removeEventListener("touchend", this.touchend);
     super.destroy();
